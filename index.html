@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Como Irritar a Carol</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', sans-serif;
+      background: linear-gradient(to right, #ffd6e0, #d6f0ff);
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      color: #ff4081;
+      text-shadow: 2px 2px #444;
+      margin-top: 20px;
+    }
+    #carol-img {
+      width: 300px;
+      margin-top: 20px;
+    }
+    .question-box {
+      background: white;
+      border-radius: 10px;
+      margin: 20px auto;
+      padding: 20px;
+      width: 80%;
+      max-width: 500px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .option {
+      display: block;
+      background: #e0f7fa;
+      border: none;
+      margin: 10px 0;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .option:hover {
+      background: #b2ebf2;
+    }
+    #status {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Como Irritar a Carol</h1>
+  <img id="carol-img" src="https://i.postimg.cc/sgP90zsb/897fcaa4-d422-487d-8594-3c669c9a6512.jpg" alt="Carol" />
+  <div id="quiz" class="question-box"></div>
+  <p id="status">Irritação: 0%</p>
+
+  <script>
+    const perguntas = [
+      {
+        pergunta: "O que mais irrita a Carol quando seu namorado sai do banheiro?",
+        opcoes: ["Deixar a luz apagada", "Usar perfume demais", "Não estender a toalha molhada", "Cantar no banho"],
+        correta: 2
+      },
+      {
+        pergunta: "O que mais irrita a Carol na hora do filme?",
+        opcoes: ["Falar do trabalho", "Ficar no celular durante o filme", "Levantar pra pegar água", "Comer muito rápido"],
+        correta: 1
+      },
+      {
+        pergunta: "O que faz a Carol querer gritar?",
+        opcoes: ["Esquecer a chave", "Deixar a luz da cozinha acesa", "Usar meia furada", "Não tirar o lixo"],
+        correta: 1
+      }
+    ];
+
+    const carolImagens = [
+      "carol_00_porcento.png",
+      "carol_00_porcento.png",
+      "carol_00_porcento.png",
+      "carol_00_porcento.png",
+      "carol_00_porcento.png"
+    ];
+
+    let indice = 0;
+    let irritacao = 0;
+
+    const quizBox = document.getElementById("quiz");
+    const carolImg = document.getElementById("carol-img");
+    const status = document.getElementById("status");
+
+    function mostrarPergunta() {
+      if (indice >= perguntas.length) {
+        quizBox.innerHTML = `<h2>Você irritou 100% a Carol 😡</h2>`;
+        carolImg.src = carolImagens[4];
+        status.textContent = "Irritação: 100%";
+        return;
+      }
+
+      const p = perguntas[indice];
+      quizBox.innerHTML = `<h3>${p.pergunta}</h3>`;
+      p.opcoes.forEach((opcao, i) => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.textContent = opcao;
+        btn.onclick = () => verificarResposta(i);
+        quizBox.appendChild(btn);
+      });
+    }
+
+    function verificarResposta(i) {
+      const p = perguntas[indice];
+      if (i === p.correta) {
+        irritacao += 100 / perguntas.length;
+        atualizarCarol();
+      }
+      indice++;
+      mostrarPergunta();
+    }
+
+    function atualizarCarol() {
+      let imgIndex = Math.floor(irritacao / 30);
+      if (imgIndex > 4) imgIndex = 4;
+      carolImg.src = carolImagens[imgIndex];
+      status.textContent = `Irritação: ${Math.min(irritacao, 100)}%`;
+    }
+
+    mostrarPergunta();
+  </script>
+
+</body>
+</html>
